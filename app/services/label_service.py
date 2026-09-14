@@ -22,7 +22,7 @@ class LabelService():
     def delete(self, owner_id: int, label_id: int) -> None:
         label = self.repo.get_label_by_id(label_id=label_id)
 
-        if not label or label.owner_id == owner_id:
+        if not label or label.owner_id != owner_id:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                                 detail="Label not found or owner does not have permission")
 
