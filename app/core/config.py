@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = Field(..., env="DATABASE_URL")
     JWT_SECRET: str = Field(..., env="JWT_SECRET")
     JWT_ALG: str = Field(default="HS256", env="JWT_ALG")
-    JWT_EXPIRE: int = Field(default=60 * 24, env="JWT_EXPIRE")
+    JWT_EXPIRE_MIN: int = Field(default=60 * 24, env="JWT_EXPIRE")
     PROJECT_NAME: str = "Devinote"
 
     class Config:
