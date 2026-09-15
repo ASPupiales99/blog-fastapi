@@ -31,12 +31,13 @@ load_dotenv()
 # DATABASE_URL = os.getenv("DATABASE_URL")
 
 raw_url = os.environ["DATABASE_URL"]
-url = raw_url
 
-if url.startswith("postgres://"):
-    url = "postgresql+psycopg://" + url[len("postgres://"):]
-elif url.startswith("postgresql://"):
-    url = "postgresql+psycopg://" + url[len("postgresql://"):]
+if raw_url.startswith("postgres://"):
+    url = "postgresql+psycopg://" + raw_url[len("postgres://"):]
+elif raw_url.startswith("postgresql://"):
+    url = "postgresql+psycopg://" + raw_url[len("postgresql://"):]
+else:
+    url = raw_url
 
 DATABASE_URL = url
 

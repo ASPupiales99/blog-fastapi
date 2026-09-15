@@ -6,12 +6,13 @@ from sqlmodel import create_engine, SQLModel, Session
 from app.core.config import settings
 
 raw_url = os.environ["DATABASE_URL"]
-url = raw_url
 
 if raw_url.startswith("postgres://"):
-    url = "postgresql+psycopg://" + url[len("postgres://"):]
-elif raw_url.startswith("postgresql://") and "+psycopg" in raw_url:
-    url = "postgresql+psycopg://" + url[len("postgresql://"):]
+    url = "postgresql+psycopg://" + raw_url[len("postgres://"):]
+elif raw_url.startswith("postgresql://"):
+    url = "postgresql+psycopg://" + raw_url[len("postgresql://"):]
+else:
+    url = raw_url
 
 engine = create_engine(url, pool_pre_ping=True)
 
