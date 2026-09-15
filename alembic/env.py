@@ -35,7 +35,7 @@ url = raw_url
 
 if url.startswith("postgres://"):
     url = "postgresql+psycopg://" + url[len("postgres://"):]
-elif url.startswith("postgresql://") and "+psycopg" not in url:
+elif url.startswith("postgresql://"):
     url = "postgresql+psycopg://" + url[len("postgresql://"):]
 
 DATABASE_URL = url
