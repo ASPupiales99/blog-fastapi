@@ -1,11 +1,23 @@
+import os
 from typing import Iterator
 
 from sqlmodel import create_engine, SQLModel, Session
 
 from app.core.config import settings
 
-engine = create_engine(settings.DATABASE_URL, echo=False,
-                       connect_args={"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {})
+raw_url = os.environ["DATABASE_URL"]
+url = raw_url
+
+if raw_url.startswith("postgres://"):
+    url = "postgresql+psycopg://" + url[len("postgres://"):]
+elif raw_url.startswith("postgresql://") and "+psycopg" in raw_url:
+    url = "postgresql+psycopg://" + url[len("postgresql://"):]
+
+engine = create_engine(url, pool_pre_ping=True)
+
+
+# engine = create_engine(settings.DATABASE_URL, echo=False,
+#                       connect_args={"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {})
 
 
 def init_db() -> None:
