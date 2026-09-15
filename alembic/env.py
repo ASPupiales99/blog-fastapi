@@ -1,15 +1,16 @@
 import os
+from dotenv import load_dotenv
 from logging.config import fileConfig
 
-from alembic import context
-from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy import pool
+
+from alembic import context
 from sqlmodel import SQLModel
 
 from app.models.user import User
 from app.models.note import Note
-from app.models.label import Label
+from app.models.label import Label, NoteLabelLink
 from app.models.share import NoteShare, LabelShare
 
 # this is the Alembic Config object, which provides
@@ -32,9 +33,9 @@ load_dotenv()
 raw_url = os.environ["DATABASE_URL"]
 url = raw_url
 
-if raw_url.startswith("postgres://"):
+if url.startswith("postgres://"):
     url = "postgresql+psycopg://" + url[len("postgres://"):]
-elif raw_url.startswith("postgresql://") and "+psycopg" in raw_url:
+elif url.startswith("postgresql://") and "+psycopg" not in url:
     url = "postgresql+psycopg://" + url[len("postgresql://"):]
 
 DATABASE_URL = url
